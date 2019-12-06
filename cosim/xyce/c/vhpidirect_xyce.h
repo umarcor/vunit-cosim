@@ -61,21 +61,25 @@ uint32_t _configDACs(xhdl_t* item) {
 }
 
 
-uint32_t xhdl_init(char **id, char **circuit) {
+uint32_t xhdl_init(fat_t* ptr, fat_t* cir) {
   int z = st_get_free();
   assert( z >= 0 );
-  printf("DEBUG: xhdl_init <%s> [%d]\n", *id, z);
+
+  char* id = fatptrToString(ptr);
+  char *circuit = fatptrToString(cir);
+
+  printf("DEBUG: xhdl_init <%s> [%d]\n", id, z);
 
   void** p = (void **) malloc( sizeof(void* [1]) );
 
-  xhdl_db[z] = new_xhdl(*id, p);
+  xhdl_db[z] = new_xhdl(id, p);
 
   char *argList[] = {
       (char*)("Xyce"),
       //(char*)("-quiet"),
       //(char*)("-o"),
       //(char*)("testOutput"),
-      (char*)(*circuit),
+      (char*)(circuit),
   };
 
   int status;
@@ -98,11 +102,12 @@ uint32_t xhdl_init(char **id, char **circuit) {
 }
 
 
-uint32_t xhdl_run(char **id, double requestedUntilTime, fat_t* tArray, fat_t* vArray) {
+uint32_t xhdl_run(fat_t* ptr, double requestedUntilTime, fat_t* tArray, fat_t* vArray) {
 
-  uint z = st_find(*id);
+  char* id = fatptrToString(ptr);
+  uint z = st_find(id);
   assert(z >= 0);
-  printf("DEBUG: xhdl_run <%s> [%d] <%f> <%p> <%p>\n", *id, z, requestedUntilTime, tArray, vArray);
+  printf("DEBUG: xhdl_run <%s> [%d] <%f> <%p> <%p>\n", id, z, requestedUntilTime, tArray, vArray);
 
   void** p = xhdl_db[z]->ptr;
   assert(p != NULL);
@@ -113,9 +118,9 @@ uint32_t xhdl_run(char **id, double requestedUntilTime, fat_t* tArray, fat_t* vA
   assert(vArray != NULL);
   assert(tArray->bounds != NULL);
   assert(vArray->bounds != NULL);
-  assert(tArray->bounds->length == vArray->bounds->length);
+  assert(tArray->bounds->dim_1.length == vArray->bounds->dim_1.length);
 
-  uint numPoints = tArray->bounds->length;
+  uint numPoints = tArray->bounds->dim_1.length;
 
   if ( numPoints != 0 ) {
     double* tArr = (double*) tArray->base;
@@ -146,26 +151,29 @@ uint32_t xhdl_run(char **id, double requestedUntilTime, fat_t* tArray, fat_t* vA
 }
 
 
-double xhdl_read(char **id, char** name) {
-  uint z = st_find(*id);
+double xhdl_read(fat_t* ptr, fat_t* name) {
+  char* id = fatptrToString(ptr);
+  char* n = fatptrToString(name);
+  uint z = st_find(id);
   assert(z >= 0);
-  printf("DEBUG: xhdl_run <%s> [%d] <%s>\n", *id, z, *name);
+  printf("DEBUG: xhdl_run <%s> [%d] <%s>\n", id, z, n);
 
   void** p = xhdl_db[z]->ptr;
   assert(p != NULL);
 
   double* val = malloc(sizeof(double));
-  xyce_obtainResponse(p, *name, val);
+  xyce_obtainResponse(p, n, val);
   printf( "Result = %f\n", *val);
 
   return *val;
 }
 
 
-void xhdl_close(char **id) {
-  printf("DEBUG: xhdl_run <%s>\n", *id);
+void xhdl_close(fat_t* ptr) {
+  char* id = fatptrToString(ptr);
+  printf("DEBUG: xhdl_run <%s>\n", id);
 
-  uint z = st_find(*id);
+  uint z = st_find(id);
   assert(z >= 0);
 
   xyce_close(xhdl_db[z]->ptr);

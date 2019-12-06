@@ -1,6 +1,9 @@
 name: 'images'
 
-on: [push]
+on:
+  push:
+  schedule:
+    - cron: '0 0 * * 5'
 
 env:
   DOCKER_BUILDKIT: '1'
@@ -11,10 +14,8 @@ jobs:
       fail-fast: false
       max-parallel: 2
       matrix:
-        task: [ xyce, octave, ]
+        task: [ xyce, octave ]
     runs-on: ubuntu-latest
-    env:
-      DOCKER_REGISTRY: docker.pkg.github.com
     steps:
     - uses: actions/checkout@v1
     - name: build image

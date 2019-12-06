@@ -3,11 +3,12 @@ Mixed-Signal (Digital/Analog) simulation with GHDL and Xyce through VHPIDIRECT i
 """
 
 from os.path import join, dirname
+from ..ghdlc import GHDLC
 
 
 class Xyce:
     """
-    VHPIDIRECT VUnit co-simulation bridge class
+    Mixed-Signal co-simulation bridge class
 
     :param srcs: optional alternative location of the sources
     """
@@ -27,7 +28,7 @@ class Xyce:
         """
         Get path to include directory containing C sources
         """
-        return join(self._srcs, "c")
+        return GHDLC().include + [join(self._srcs, "c")]
 
 
 #    def verscript(self, file=None):

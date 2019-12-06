@@ -38,6 +38,7 @@ setup(
         "tests.lint",
         "tests.unit",
         "cosim",
+        "cosim.ghdlc",
         "cosim.vhpidirect",
         "cosim.websim",
         "cosim.xyce",

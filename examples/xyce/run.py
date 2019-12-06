@@ -19,10 +19,9 @@ for prj in ["runACircuitInSteps", "runWithDACs"]:
     c_obj = join(src_path, "main.o")
 
     check_call(
+        ["gcc", "-fPIC"] +
+        ["-I%s" % x for x in COSIM.include] +
         [
-            "gcc",
-            "-fPIC",
-            "-I%s" % COSIM.include,
             "-c",
             join(dirname(__file__), "src", "main.c"),
             "-o",
