@@ -1,6 +1,7 @@
 VHPIDIRECT {
   global:
 main;
+oct_main;
 ghdl_main;
 read_char;
 write_char;

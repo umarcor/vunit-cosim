@@ -34,7 +34,14 @@ def find_files():
 setup(
     name="vunit_cosim",
     # version=version(),
-    packages=["tests.acceptance", "tests.lint", "cosim", "cosim.vhpidirect"],
+    packages=[
+        "tests.lint",
+        "tests.unit",
+        "cosim",
+        "cosim.vhpidirect",
+        "cosim.websim",
+        "cosim.xyce",
+    ],
     package_data={"cosim": find_files()},
     zip_safe=False,
     url="https://github.com/VUnit/cosim",

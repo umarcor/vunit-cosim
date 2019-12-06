@@ -1,0 +1,43 @@
+FROM fedora AS build
+
+RUN dnf install -y \
+  automake \
+  blas-devel \
+  clang \
+  cmake \
+  diffutils \
+  fftw-devel \
+  findutils \
+  gcc-gnat \
+  git \
+  lapack-devel \
+  llvm-devel \
+  make \
+  suitesparse-devel \
+  zlib-devel
+
+COPY build.sh /tmp/build.sh
+RUN /tmp/build.sh
+
+#---
+
+#FROM fedora
+
+#RUN dnf install -y \
+#  automake \
+#  blas-devel \
+#  clang \
+#  cmake \
+#  diffutils \
+#  fftw-devel \
+#  findutils \
+#  gcc-gnat \
+#  git \
+#  lapack-devel \
+#  llvm-devel \
+#  make \
+#  suitesparse-devel \
+#  zlib-devel
+#
+#COPY --from=build /tmp/usr/* /usr/local/
+#

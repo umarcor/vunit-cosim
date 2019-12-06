@@ -1,0 +1,25 @@
+FROM debian:buster-slim
+
+RUN apt-get update -qq && \
+DEBIAN_FRONTEND=noninteractive apt-get -y install --no-install-recommends \
+  ca-certificates \
+  curl \
+  gcc \
+  gnat-8 \
+  make \
+  zlib1g-dev \
+  clang-7 \
+  llvm-7-dev \
+  g++ \
+  gfortran \
+  git \
+  cmake \
+  libfl-dev \
+  libfftw3-dev \
+  libsuitesparse-dev \
+  libblas-dev \
+  liblapack-dev \
+  libtool
+
+COPY build.sh /tmp/build.sh
+RUN /tmp/build.sh

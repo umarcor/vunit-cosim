@@ -9,11 +9,32 @@ Bridges contain VHDL packages, matching C headers and/or Python classes. Each br
 
 Available modules:
 
+:ref:`bridges:ghdlc`
+    C bindings for GHDL's VHPIDIRECT *fat pointers* (see `ghdl.readthedocs.io: Interfacing to other languages <https://ghdl.readthedocs.io/en/latest/using/Foreign.html>`_).
+
 :ref:`bridges:vhpidirect`
     C bindings for VUnit's external VHDL API (see :ref:`vunit:data_types_library`).
+
+:ref:`bridges:websim`
+    Web GUI to provide custom interactive visualisations, based on bridge :ref:`bridges:vhpidirect`.
+
+:ref:`bridges:xyce`
+    Simplified version of `XyceCInterface <https://github.com/Xyce/Xyce/tree/master/utils/XyceCInterface>`_ and VHDL bindings, based on bridge :ref:`bridges:ghdlc`.
+
+:ref:`bridges:grpc`
+    Hooks for bridge :ref:`bridges:vhpidirect` to interact with remote *agents* or *virtual memories* through `gRPC Remote Procedure Calls <https://grpc.io/>`_ (see `dbhi/grpc <https://github.com/dbhi/grpc>`_).
+
+:ref:`bridges:fli`
+    Compatibility with :ref:`bridges:vhpidirect` for simulators that support FLI.
 
 .. toctree::
    :maxdepth: 2
    :hidden:
+   :glob:
 
+   ghdlc
    vhpidirect
+   websim
+   xyce
+   grpc
+   fli

@@ -1,0 +1,4 @@
+Python callbacks
+################
+
+One use case is to define from Python a callback that is executed in write_char. As a result, when the GHDL simulation is loaded from Python as in dbhi/vunit:examples/vhdl/external_buffer/cosim.py@vunitcosim , it is possible to make VHDL write a message directly to a Python queue. This procedure reduces the importance of C sources so that the relevant logic is described/programmed in VHDL and/or Python. This is specially pertinent in the context of VUnit, because communication/queue libraries for VHDL are provided and Python already includes queue types that are easier to use than C equivalents.

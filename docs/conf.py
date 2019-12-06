@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 from pathlib import Path
 
+=======
+>>>>>>> initial commit
 # -- Path setup --------------------------------------------------------------
 
 # If extensions (or modules to document with autodoc) are in another directory,

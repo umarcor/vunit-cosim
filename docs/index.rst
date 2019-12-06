@@ -13,7 +13,7 @@
 .. _shieldTwitter: https://www.twitter.com/VUnitFramework
 
 VUnit cosim
-===========
+###########
 
 **VUnit** is an open source unit testing framework for VHDL/SystemVerilog, which features the
 functionality needed to realise continuous and automated testing of HDL code.
@@ -36,5 +36,7 @@ software applications written in a different language (typically C/C++ or Python
    bridges/index
    examples/index
    utils
+   development
+   cocotb
    genindex
    py-modindex

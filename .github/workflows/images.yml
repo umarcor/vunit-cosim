@@ -1,0 +1,29 @@
+name: 'images'
+
+on: [push]
+
+env:
+  DOCKER_BUILDKIT: '1'
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        task: [ xyce, octave, ]
+    runs-on: ubuntu-latest
+    env:
+      DOCKER_REGISTRY: docker.pkg.github.com
+    steps:
+    - uses: actions/checkout@v1
+    - name: build image
+      run: |
+        cd examples/${{ matrix.task }}
+        docker build -t umarcor/cosim:${{ matrix.task }} - < Dockerfile
+    - name: docker login
+      run: echo "${{ secrets.DOCKER_PASS }}" | docker login -u "${{ secrets.DOCKER_USER }}" --password-stdin
+    - name: docker push
+      run: docker push umarcor/cosim:${{ matrix.task }}
+    - run: docker logout
+      if: always()

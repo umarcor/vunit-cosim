@@ -18,6 +18,8 @@ jobs:
           task: [
             "38-fmt -- --check",
             "38-lint -- --color=yes",
+            "36-unit -- --color=yes",
+            "38-unit -- --color=yes",
           ]
     runs-on: ubuntu-latest
     steps:
@@ -42,6 +44,7 @@ jobs:
         task: [
           { py: 38, img: "docker.pkg.github.com/vunit/vunit/dev:llvm" },
           { py: 38, img: "docker.pkg.github.com/vunit/vunit/dev:mcode" },
+          { py: 37, img: "umarcor/cosim:xyce" }
         ]
     runs-on: ubuntu-latest
     steps:
@@ -66,6 +69,8 @@ jobs:
         task: [
           38-acceptance-ghdl,
           38-lint,
+          36-unit,
+          38-unit,
         ]
     runs-on: windows-latest
     steps:
