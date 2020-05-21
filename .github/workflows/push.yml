@@ -53,7 +53,7 @@ jobs:
     - name: run job
       run: |
         $CLONE_VUNIT
-        docker run --rm -tv $(pwd)/..:/src -w /src/cosim ${{ matrix.task.img }} tox -e py${{ matrix.task.py }}-acceptance-ghdl
+        docker run --rm -tv $(pwd)/..:/src -w /src/vunit-cosim ${{ matrix.task.img }} tox -e py${{ matrix.task.py }}-acceptance-ghdl
     - name: docker logout
       run: docker logout "$DOCKER_REGISTRY"
       if: always()
@@ -96,3 +96,32 @@ jobs:
       run: |
         export PATH=$PATH:$(pwd)/../ghdl-v0.36/bin
         tox -e py${{ matrix.task }} -- --color=yes
+
+  cocotb:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: umarcor/setup-ghdl@master
+      with:
+        backend: llvm
+    - run: ghdl --version
+    - uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+    - name: Install dependencies
+      run: |
+        #sudo apt update -qq
+        #sudo apt install g++ python3-dev
+        python -m pip install --progress-bar off tox vunit_hdl
+    #- name: Run tox
+    #  run: |
+    #    git clone https://github.com/cocotb/cocotb
+    #    cd cocotb
+    #    TOPLEVEL_LANG=vhdl SIM=ghdl tox -e py37
+    - name: Test dff
+      run: |
+        cd cocotb
+        python setup.py install
+        cd examples/dff/tests
+        TOPLEVEL_LANG=vhdl SIM=ghdl make
+
